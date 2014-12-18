@@ -43,9 +43,6 @@
     "sinon-chai": "~2.6.0",
     "source-map-support": "*"
   },
-  "engines": {
-    "node": "^0.10.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/snowyu/abstract-stream"
