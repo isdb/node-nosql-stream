@@ -1,0 +1,77 @@
+{
+  "name": "abstract-stream",
+  "version": "0.0.1",
+  "description": "abstract read/write stream for nosql database.",
+  "homepage": "https://github.com/snowyu/abstract-stream",
+  "main": "./index",
+  "files": [
+    "README.md",
+    "LICENSE-MIT",
+    "index.js",
+    "test",
+    "lib"
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "abstract-object": "~1.2.1",
+    "readable-stream": "~1.0.33"
+  },
+  "devDependencies": {
+    "chai": "~1.10.0",
+    "coffee-script": "~1.8.0",
+    "connect-livereload": "*",
+    "grunt": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-mocha-test": "~0.12.4",
+    "grunt-newer": "*",
+    "grunt-release": "*",
+    "grunt-rev": "*",
+    "grunt-saucelabs": "*",
+    "grunt-usemin": "*",
+    "memdown-sync": "^1.1.1",
+    "mocha": "~2.0.1",
+    "powerbuild": "*",
+    "sinon": "~1.12.2",
+    "sinon-chai": "~2.6.0",
+    "source-map-support": "*"
+  },
+  "engines": {
+    "node": "^0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snowyu/abstract-stream"
+  },
+  "keywords": [
+    "abstract",
+    "object",
+    "class",
+    "stream",
+    "nosql",
+    "event",
+    "database",
+    "writable",
+    "readable"
+  ],
+  "author": {
+    "name": "Riceball LEE",
+    "email": "snowyu.lee@gmail.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/snowyu/abstract-stream/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/snowyu/abstract-stream/issues"
+  }
+}
