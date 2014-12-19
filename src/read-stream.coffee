@@ -114,4 +114,4 @@ module.exports = class ReadStream
     @cleanup()
 
   toString: ->
-    'ReadStream'
+    'NoSQLReadStream'
