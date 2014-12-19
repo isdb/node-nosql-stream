@@ -23,20 +23,20 @@ initTestDB = ->
 describe "ReadStream", ->
   db = initTestDB()
   describe ".create", ->
-    it "should create a ReadStream via options.db", ->
-      stream = ReadStream({db:db})
-      should.exist stream
+    it "should create a ReadStream via db argument", ->
+      stream = ReadStream(db)
+      should.exist stream, "stream"
       stream.should.be.instanceOf ReadStream
       should.exist stream._iterator, "iterator should be exists"
-    it "should create a ReadStream via db argument", ->
-      stream = ReadStream({}, null, db)
-      should.exist stream, "stream"
+    it "should create a ReadStream via options.db", ->
+      stream = ReadStream(null, {db:db})
+      should.exist stream
       stream.should.be.instanceOf ReadStream
       should.exist stream._iterator, "iterator should be exists"
   describe ".read", ->
     it "should read all data through database", (done)->
       data = {}
-      stream = ReadStream({db:db, keyAsBuffer: false, ValueAsBuffer: false})
+      stream = ReadStream(db, {keyAsBuffer: false, ValueAsBuffer: false})
       stream.on "data", (item)->
         data[item.key] = item.value
       stream.on "error", (err)->
@@ -47,8 +47,7 @@ describe "ReadStream", ->
     it "should filter data through database", (done)->
       count = 0
       data = {}
-      stream = ReadStream
-        db:db
+      stream = ReadStream db,
         keyAsBuffer: false
         ValueAsBuffer: false
         filter: (k,v)->
@@ -61,7 +60,7 @@ describe "ReadStream", ->
       stream.on "error", (err)->
         done(err)
       stream.on "end", ()->
-        keys = (k for k of data)
+        keys = Object.keys(data)
         count--
         assert.equal keys.length, count
         for k,v of data
