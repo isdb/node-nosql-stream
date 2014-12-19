@@ -5,11 +5,15 @@ consts        = require('./consts')
 inherits      = util.inherits
 isFunction    = util.isFunction
 isObject      = util.isObject
+extend        = util._extend
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
 FILTER_EXCLUDED = consts.FILTER_EXCLUDED
 FILTER_STOPPED  = consts.FILTER_STOPPED
 EncodingError   = Errors.EncodingError
+
+defaultOptions =
+  highWaterMark: 1e5
 
 ###
 readStream is used to search and read the [abstract-nosql](https://github.com/snowyu/abstract-nosql) database.
@@ -27,16 +31,17 @@ range of keys that are streamed.
 module.exports = class ReadStream
   inherits ReadStream, Readable
 
-  constructor: (aOptions, aMakeData, db)->
+  constructor: (db, aOptions, aMakeData)->
     if (!(this instanceof ReadStream))
-      return new ReadStream(aOptions, aMakeData, db)
+      return new ReadStream(db, aOptions, aMakeData)
 
-    Readable.call(this, { objectMode: true, highWaterMark: aOptions.highWaterMark })
+    @_options = extend({}, defaultOptions)
+    @_options = extend(@_options, aOptions || {})
+    Readable.call(this, { objectMode: true, highWaterMark: @_options.highWaterMark })
 
     @_waiting = false
-    @_options = aOptions
     db = aOptions.db unless db?
-    if isFunction(aOptions.filter)
+    if isFunction(@_options.filter)
       @_filter = (item)->
         vKey = vValue = null
         if isObject(item)
@@ -50,11 +55,11 @@ module.exports = class ReadStream
     if aMakeData
       @_makeData = aMakeData
     else
-      @_makeData = if aOptions.keys isnt false and aOptions.values isnt false then (key, value) ->
+      @_makeData = if @_options.keys isnt false and @_options.values isnt false then (key, value) ->
           key: key
           value: value
-      else if aOptions.values is false then (key) -> key
-      else if aOptions.keys   is false then (_, value) -> value
+      else if @_options.values is false then (key) -> key
+      else if @_options.keys   is false then (_, value) -> value
       else ->
     if db
       if !db.isOpen or db.isOpen()
