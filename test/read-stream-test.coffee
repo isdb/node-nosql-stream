@@ -90,7 +90,6 @@ describe "ReadStream", ->
         done(err)
       stream.on "end", ()->
         keys = Object.keys(data)
-        count--
         assert.equal keys.length, count
         for k,v of data
           assert.ok k % 2 is 1, "key should be odd"

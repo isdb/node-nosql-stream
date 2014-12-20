@@ -102,10 +102,11 @@ module.exports = class ReadStream
       if !self._destroyed
         if self._filter then switch self._filter(value)
           when FILTER_EXCLUDED
-            # skip and read the next.
+            # skip this and read the next.
             self._read()
             return
-          when FILTER_STOPPED #halt and this key is excluded.
+          when FILTER_STOPPED #halt
+            self.push(value)
             self.push(null)
             return self._cleanup()
         self.last = key
