@@ -37,11 +37,20 @@ module.exports = class ReadStream
 
     @_options = extend({}, defaultOptions)
     @_options = extend(@_options, aOptions || {})
-    Readable.call(this, { objectMode: true, highWaterMark: @_options.highWaterMark })
+    aOptions  = @_options
 
+    Readable.call(this, { objectMode: true, highWaterMark: aOptions.highWaterMark })
+
+    if aOptions.next
+        if aOptions.reverse isnt true
+          aOptions.gt = aOptions.next
+          aOptions.gte= aOptions.next
+        else
+          aOptions.lt = aOptions.next
+          aOptions.lte= aOptions.next
     @_waiting = false
     db = aOptions.db unless db?
-    if isFunction(@_options.filter)
+    if isFunction(aOptions.filter)
       @_filter = (item)->
         vKey = vValue = null
         if isObject(item)
@@ -55,11 +64,11 @@ module.exports = class ReadStream
     if aMakeData
       @_makeData = aMakeData
     else
-      @_makeData = if @_options.keys isnt false and @_options.values isnt false then (key, value) ->
+      @_makeData = if aOptions.keys isnt false and aOptions.values isnt false then (key, value) ->
           key: key
           value: value
-      else if @_options.values is false then (key) -> key
-      else if @_options.keys   is false then (_, value) -> value
+      else if aOptions.values is false then (key) -> key
+      else if aOptions.keys   is false then (_, value) -> value
       else ->
     if db
       if !db.isOpen or db.isOpen()
@@ -96,9 +105,10 @@ module.exports = class ReadStream
             # skip and read the next.
             self._read()
             return
-          when FILTER_STOPPED #halt
+          when FILTER_STOPPED #halt and this key is excluded.
             self.push(null)
             return self._cleanup()
+        self.last = key
         self.push(value)
 
   _cleanup: (aError)->
@@ -109,6 +119,7 @@ module.exports = class ReadStream
       @emit('error', err)
 
     if @_iterator
+      @emit 'last', @last
       @_iterator.end =>
         @_iterator = null
         @emit('close')
