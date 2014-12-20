@@ -87,6 +87,20 @@ describe "ReadStream", ->
       .on "end", ()->
         assert.equal count, 60-3
         done()
+    it "should match data through database", (done)->
+      count = 0
+      stream = ReadStream db,
+        match: "0*"
+        keyAsBuffer: false
+        ValueAsBuffer: false
+      stream.on "data", (item)->
+        item.key.should.be.gte(0).and.lte(9)
+        count++
+      .on "error", (err)->
+        done(err)
+      .on "end", ()->
+        assert.equal count, 10
+        done()
     it "should filter data through database", (done)->
       count = 0
       data = {}

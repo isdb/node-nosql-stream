@@ -1,10 +1,12 @@
 Readable      = require('readable-stream').Readable
+minimatch     = require('minimatch')
 util          = require('abstract-object/lib/util')
 Errors        = require('./errors')
 consts        = require('./consts')
 inherits      = util.inherits
 isFunction    = util.isFunction
 isObject      = util.isObject
+isString      = util.isString
 extend        = util._extend
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
@@ -50,8 +52,18 @@ module.exports = class ReadStream
           aOptions.lte= aOptions.next
     @_waiting = false
     db = aOptions.db unless db?
+    if isString(aOptions.match) and aOptions.match.length > 0
+      @match = (item)->
+        vKey = null
+        if isObject(item)
+          vKey = item.key
+        else if aOptions.keys isnt false
+          vKey = item
+        else
+          return true
+        return minimatch(vKey, aOptions.match)
     if isFunction(aOptions.filter)
-      @_filter = (item)->
+      @filter = (item)->
         vKey = vValue = null
         if isObject(item)
           vKey = item.key
@@ -100,7 +112,7 @@ module.exports = class ReadStream
         return self._cleanup(new EncodingError(e))
 
       if !self._destroyed
-        if self._filter then switch self._filter(value)
+        if self.filter then switch self.filter(value)
           when FILTER_EXCLUDED
             # skip this and read the next.
             self._read()
@@ -109,6 +121,9 @@ module.exports = class ReadStream
             self.push(value)
             self.push(null)
             return self._cleanup()
+        if self.match and not self.match(value)
+          self._read() #skip and read next.
+          return
         self.last = key
         self.push(value)
 

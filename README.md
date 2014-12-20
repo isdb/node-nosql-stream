@@ -41,11 +41,14 @@ __arguments__
     * note: the filter function argument 'key' and 'value' may be null, it is affected via keys and values of this options.
   * `'range'` *(string or array)*: the keys are in the give range as the following format:
     * string:
-      * "[a, b]": from a to b. a,b included. this means {gte='a', lte = 'b'}
-      * "(a, b]": from a to b. b included, a excluded. this means {gt='a', lte='b'}
-      * "[, b)"   from begining to b, begining included, b excluded. this means {lt='b'}
+      * "[a, b]": from a to b. a,b included. this means {gte:'a', lte: 'b'}
+      * "(a, b]": from a to b. b included, a excluded. this means {gt:'a', lte:'b'}
+      * "[, b)" : from begining to b, begining included, b excluded. this means {lt:'b'}
+      * "(, b)" : from begining to b, begining excluded, b excluded. this means {gt:null, lt:'b'}
       * note: this will affect the gt/gte/lt/lte options.
+        * "(,)": this is not be allowed. the ending should be a value always.
     * array: the key list to get. eg, ['a', 'b', 'c']
+      * `gt`/`gte`/`lt`/`lte` options will be ignored.
   * `'gt'` (greater than), `'gte'` (greater than or equal) define the lower bound of the range to be streamed. Only records where the key is greater than (or equal to) this option will be included in the range. When `reverse=true` the order will be reversed, but the records streamed will be the same.
   * `'lt'` (less than), `'lte'` (less than or equal) define the higher bound of the range to be streamed. Only key/value pairs where the key is less than (or equal to) this option will be included in the range. When `reverse=true` the order will be reversed, but the records streamed will be the same.
   * `'start', 'end'` legacy ranges - instead use `'gte', 'lte'`
