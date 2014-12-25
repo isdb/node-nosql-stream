@@ -137,3 +137,47 @@ ws.end()
 
 ```
 
+# AbstractIterator
+
+You must implement the AbstractIterator if you wanna the database supports the streamable ability.
+
+
+* AbstractIterator(db[, options])
+  * db: Provided with the current instance of [AbstractNoSql](https://github.com/snowyu/node-abstract-nosql).
+  * options: the iterator options. see the ReadStream's options.
+* next([callback]):
+* nextSync():
+* end([callback]):
+  * it's the alias for free method() to keep comaptiable with abstract-leveldown.
+* endSync():
+  * it's the alias for freeSync method() to keep comaptiable with abstract-leveldown.
+* free():
+* freeSync():
+
+The following methods need to be implemented:
+
+## Sync methods:
+
+### AbstractIterator#_nextSync()
+
+Get the next element of this iterator.
+
+__return__
+
+* if any result: return a two elements of array
+  * the first is the key, the first element could be null or undefined if options.keys is false
+  * the second is the value, the second element could be null or undefined if options.values is false
+* or return false, if no any data yet.
+
+
+#### AbstractIterator#_endSync()
+
+end the iterator.
+
+### Async methods:
+
+these async methods are optional to be implemented.
+
+#### AbstractIterator#_next(callback)
+#### AbstractIterator#_end(callback)
+
