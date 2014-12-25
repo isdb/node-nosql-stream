@@ -139,7 +139,7 @@ ws.end()
 
 # AbstractIterator
 
-You must implement the AbstractIterator if you wanna the database supports the streamable ability.
+You must implement the AbstractIterator if you wanna the database supports the ReadStreamable ability.
 
 
 * AbstractIterator(db[, options])
