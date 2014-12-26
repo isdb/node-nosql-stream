@@ -10,7 +10,7 @@ Add the streamable ability to the [abstract-nosql](https://github.com/snowyu/abs
 
 ReadStream is used to search and read the [abstract-nosql](https://github.com/snowyu/abstract-nosql) database.
 
-You must implement the db.iterator(options), iterator.next() and iterator.end() to use. (see [abstract-nosql](https://github.com/snowyu/abstract-nosql))
+You must implement the db.iterator(options), iterator.next() and iterator.end() to use. (See AbstractIterator)
 
 * db.iterator(options): create an iterator instance
 * iterator.next() and iterator.end(): the instance method of the iterator
