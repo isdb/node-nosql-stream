@@ -4,17 +4,29 @@ should          = chai.should()
 ReadStream      = require '../lib/read-stream'
 consts          = require '../lib/consts'
 Memdown         = require 'memdown-sync'
-
+#LevelDown       = require 'leveldown-sync'
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
 FILTER_EXCLUDED = consts.FILTER_EXCLUDED
 FILTER_STOPPED  = consts.FILTER_STOPPED
 
+fillChar = (c, len=2) ->
+  result = ''
+  len++
+  while len -= 1
+    result += c
+  result
+toFixedInt = (value, digits=2)->
+  result = fillChar 0, digits
+  (result+value).slice(-digits)
+
+
 allData = {}
 for k in [0..99]
-  allData[("00"+k).slice(-2)] = Math.random().toString()
+  allData[toFixedInt(k, 2)] = Math.random().toString()
 initTestDB = ->
   db = Memdown()
+  #db = LevelDown('tempdb')
   db.open()
   for k,v of allData
     db.put(k, v)
@@ -119,6 +131,7 @@ describe "ReadStream", ->
       stream.on "end", ()->
         keys = Object.keys(data)
         assert.equal keys.length, count
+        assert.equal count, 11
         for k,v of data
           assert.ok k % 2 is 1, "key should be odd"
           assert.equal v, allData[k]
@@ -126,9 +139,9 @@ describe "ReadStream", ->
     it "should be next/last", (done)->
       count = 0
       lastKey = null
+      pageCount = 0
       nextPage = (db, aLastKey, aPageSize, cb)->
-        pageData = {}
-        pageCount = 0
+        pageData = []
         ReadStream db,
           next: aLastKey
           limit: aPageSize
@@ -138,14 +151,38 @@ describe "ReadStream", ->
           lastKey = aLastKey
         .on "data", (item)->
           item.key.should.be.gt(aLastKey) if aLastKey
-          pageCount++
+          pageData.push item
         .on "error", (err)->
           done(err)
         .on "end", ()->
-          assert.equal pageCount, aPageSize
-          cb() if cb
-      nextPage db, lastKey, 2, ->
-        lastKey.should.be.equal "01"
-        nextPage db, lastKey, 2, ->
-          lastKey.should.be.equal "03"
+          pageCount++
+          assert.equal pageData.length, aPageSize if pageCount < 50
+          cb(pageData) if cb
+      runNext = ->
+        if lastKey and pageCount <= 50
+          nextPage db, lastKey, 2, (data)->
+            lastId = (pageCount-1)*2+1
+            lastKey.should.be.equal toFixedInt(lastId,2) if lastKey
+            if data.length
+              data.should.be.deep.equal [
+                {key: toFixedInt(lastId-1), value: allData[toFixedInt(lastId-1)]}
+                {key: toFixedInt(lastId), value: allData[toFixedInt(lastId)]}
+              ]
+            else
+              pageCount.should.be.equal 51
+              should.not.exist lastKey
+            runNext()
+        else
+          pageCount.should.be.equal 51
+          should.not.exist lastKey
           done()
+      nextPage db, lastKey, 2, (data)->
+        lastId = (pageCount-1)*2+1
+        #console.log "p=",pageCount, toFixedInt(lastId,2), lastKey
+        lastKey.should.be.equal toFixedInt(lastId,2)
+        data.should.be.deep.equal [
+          {key: toFixedInt(lastId-1), value: allData[toFixedInt(lastId-1)]}
+          {key: toFixedInt(lastId), value: allData[toFixedInt(lastId)]}
+        ]
+        runNext()
+
