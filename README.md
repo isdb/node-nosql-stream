@@ -4,13 +4,13 @@
 
 [![NPM](https://nodei.co/npm/nosql-stream.png?stars&downloads&downloadRank)](https://nodei.co/npm/nosql-stream/)
 
-Add the streamable ability to the [abstract-nosql](https://github.com/snowyu/abstract-nosql) database.
+Add the streamable ability to the [abstract-nosql](https://github.com/snowyu/node-abstract-nosql) database.
 
 ## ReadStream
 
-ReadStream is used to search and read the [abstract-nosql](https://github.com/snowyu/abstract-nosql) database.
+ReadStream is used to search and read the [abstract-nosql](https://github.com/snowyu/node-abstract-nosql) database.
 
-You must implement the db.iterator(options), iterator.next() and iterator.end() to use. (See AbstractIterator)
+You must implement the db.iterator(options), iterator.next() and iterator.end() to use. (See [AbstractIterator](https://github.com/snowyu/node-abstract-iterator))
 
 * db.iterator(options): create an iterator instance
 * iterator.next() and iterator.end(): the instance method of the iterator
@@ -20,6 +20,7 @@ where `'data'` events emit objects with `'key'` and `'value'` pairs.
 
 You can also use the `gt`, `lt` and `limit` options to control the
 range of keys that are streamed. And you can use the filter function to filter the resulting stream.
+
 
 ### Usage
 
@@ -140,6 +141,8 @@ ws.end()
 # AbstractIterator
 
 You must implement the AbstractIterator if you wanna the database supports the ReadStreamable ability.
+
+[AbstractIterator](https://github.com/snowyu/node-abstract-iterator)
 
 
 * AbstractIterator(db[, options])

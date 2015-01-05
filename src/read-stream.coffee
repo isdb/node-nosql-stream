@@ -43,35 +43,8 @@ module.exports = class ReadStream
 
     Readable.call(this, { objectMode: true, highWaterMark: aOptions.highWaterMark })
 
-    if aOptions.next
-        if aOptions.reverse isnt true
-          aOptions.gt = aOptions.next
-          aOptions.gte= aOptions.next
-        else
-          aOptions.lt = aOptions.next
-          aOptions.lte= aOptions.next
     @_waiting = false
     db = aOptions.db unless db?
-    if isString(aOptions.match) and aOptions.match.length > 0
-      @match = (item)->
-        vKey = null
-        if isObject(item)
-          vKey = item.key
-        else if aOptions.keys isnt false
-          vKey = item
-        else
-          return true
-        return minimatch(vKey, aOptions.match)
-    if isFunction(aOptions.filter)
-      @filter = (item)->
-        vKey = vValue = null
-        if isObject(item)
-          vKey = item.key
-          vValue = item.value
-        else if aOptions.keys isnt false
-          vKey = item
-        else vValue = item if aOptions.values isnt false
-        aOptions.filter vKey, vValue
 
     if aMakeData
       @_makeData = aMakeData
@@ -112,19 +85,6 @@ module.exports = class ReadStream
         return self._cleanup(new EncodingError(e))
 
       if !self._destroyed
-        if self.filter then switch self.filter(value)
-          when FILTER_EXCLUDED
-            # skip this and read the next.
-            self._read()
-            return
-          when FILTER_STOPPED #halt
-            self.push(value)
-            self.push(null)
-            return self._cleanup()
-        if self.match and not self.match(value)
-          self._read() #skip and read next.
-          return
-        self.last = key
         self.push(value)
 
   _cleanup: (aError)->
@@ -135,7 +95,7 @@ module.exports = class ReadStream
       @emit('error', err)
 
     if @_iterator
-      @emit 'last', @last
+      @emit 'last', @_iterator.last
       @_iterator.end =>
         @_iterator = null
         @emit('close')
