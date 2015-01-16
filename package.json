@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "abstract-iterator": ">=0.10.0",
+    "abstract-nosql": "~1.10.4",
     "abstract-object": "~1.6.1",
     "batch-write-stream": "~0.1.6",
     "minimatch": "~2.0.1",
@@ -41,7 +42,7 @@
     "grunt-rev": "*",
     "grunt-saucelabs": "*",
     "grunt-usemin": "*",
-    "memdown-sync": ">=1.6.0",
+    "memdown-sync": "~1.6.0",
     "mocha": "~2.0.1",
     "powerbuild": "latest",
     "sinon": "~1.12.2",
