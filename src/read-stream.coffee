@@ -1,13 +1,12 @@
 Readable      = require('readable-stream').Readable
 minimatch     = require('minimatch')
-util          = require('abstract-object/lib/util')
 Errors        = require('./errors')
 consts        = require('./consts')
-inherits      = util.inherits
-isFunction    = util.isFunction
-isObject      = util.isObject
-isString      = util.isString
-extend        = util._extend
+inherits      = require('abstract-object/lib/util/inherits')
+extend        = require('abstract-object/lib/util/_extend')
+isFunction    = require('abstract-object/lib/util/isFunction')
+isObject      = require('abstract-object/lib/util/isObject')
+isString      = require('abstract-object/lib/util/isString')
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
 FILTER_EXCLUDED = consts.FILTER_EXCLUDED

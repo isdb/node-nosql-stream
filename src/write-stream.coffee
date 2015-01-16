@@ -1,10 +1,9 @@
 BatchWriteStream  = require('batch-write-stream')
-util              = require('abstract-object/lib/util')
 Errors            = require('./errors')
 consts            = require('./consts')
 
-inherits      = util.inherits
-extend        = util._extend
+inherits      = require('abstract-object/lib/util/inherits')
+extend        = require('abstract-object/lib/util/_extend')
 setImmediate  = global.setImmediate || process.nextTick
 
 defaultOptions =
