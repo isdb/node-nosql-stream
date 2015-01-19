@@ -1,8 +1,5 @@
-# NoSQL Stream
+### NoSQL Stream [![Build Status](https://img.shields.io/travis/snowyu/node-nosql-stream/master.svg)](http://travis-ci.org/snowyu/node-nosql-stream) [![npm](https://img.shields.io/npm/v/nosql-stream.svg)](https://npmjs.org/package/nosql-stream) [![downloads](https://img.shields.io/npm/dm/nosql-stream.svg)](https://npmjs.org/package/nosql-stream) [![license](https://img.shields.io/npm/l/nosql-stream.svg)](https://npmjs.org/package/nosql-stream)
 
-[![Build Status](https://secure.travis-ci.org/snowyu/nosql-stream.png?branch=master)](http://travis-ci.org/snowyu/nosql-stream)
-
-[![NPM](https://nodei.co/npm/nosql-stream.png?stars&downloads&downloadRank)](https://nodei.co/npm/nosql-stream/)
 
 Add the streamable ability to the [abstract-nosql](https://github.com/snowyu/node-abstract-nosql) database.
 
@@ -16,10 +13,10 @@ Once the Database implements the [AbstractIterator](https://github.com/snowyu/no
 
 the db should be the streamable.
 
-But, you should install the [nosql-stream](https://github.com/snowyu/nosql-stream) package first.
+But, you should install the [nosql-stream](https://github.com/snowyu/node-nosql-stream) package first.
 
     npm install nosql-stream
-you should install the [nosql-stream](https://github.com/snowyu/nosql-stream) package first.
+you should install the [nosql-stream](https://github.com/snowyu/node-nosql-stream) package first.
 
     npm install nosql-stream
 

@@ -1,6 +1,6 @@
 {
   "name": "nosql-stream",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "add the read/write streamable ability to abstract-nosql database.",
   "homepage": "https://github.com/snowyu/nosql-stream",
   "main": "./index",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "abstract-iterator": ">=0.10.0",
-    "abstract-nosql": "~1.10.4",
+    "abstract-nosql": ">=2.0.0",
     "abstract-object": "~1.6.1",
     "batch-write-stream": "~0.1.6",
     "minimatch": "~2.0.1",
@@ -42,7 +42,7 @@
     "grunt-rev": "*",
     "grunt-saucelabs": "*",
     "grunt-usemin": "*",
-    "memdown-sync": "~1.6.0",
+    "nosql-memdb": "~2.0.0",
     "mocha": "~2.0.1",
     "sinon": "~1.12.2",
     "sinon-chai": "~2.6.0",
