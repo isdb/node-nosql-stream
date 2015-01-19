@@ -4,7 +4,7 @@ should          = chai.should()
 ReadStream      = require '../lib/read-stream'
 WriteStream     = require '../lib/write-stream'
 consts          = require '../lib/consts'
-Memdown         = require 'memdown-sync'
+MemDB           = require 'nosql-memdb'
 
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
@@ -16,7 +16,7 @@ for k in [0..100]
   allData[k] = Math.random().toString()
 
 initTestDB = (location)->
-  db = Memdown(location)
+  db = MemDB(location)
   db.open()
   db
 

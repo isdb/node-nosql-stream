@@ -5,8 +5,8 @@ StreamNoSQL     = require '../lib/nosql-stream'
 consts          = require '../lib/consts'
 ReadStream      = require '../lib/read-stream'
 WriteStream     = require '../lib/write-stream'
-Memdown         = StreamNoSQL require 'memdown-sync'
-#LevelDown       = require 'leveldown-sync'
+MemDB           = StreamNoSQL require 'nosql-memdb'
+#LevelDB       = require 'nosql-leveldb'
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
 FILTER_EXCLUDED = consts.FILTER_EXCLUDED
@@ -27,8 +27,8 @@ allData = {}
 for k in [0..99]
   allData[toFixedInt(k, 2)] = Math.random().toString()
 initTestDB = (location, writeData=true)->
-  db = Memdown(location)
-  #db = LevelDown('tempdb')
+  db = MemDB(location)
+  #db = LevelDB('tempdb')
   db.open()
   if writeData then for k,v of allData
     db.put(k, v)

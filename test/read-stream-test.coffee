@@ -3,8 +3,8 @@ assert          = chai.assert
 should          = chai.should()
 ReadStream      = require '../lib/read-stream'
 consts          = require '../lib/consts'
-Memdown         = require 'memdown-sync'
-#LevelDown       = require 'leveldown-sync'
+MemDB           = require 'nosql-memdb'
+#LevelDB         = require 'nosql-leveldb'
 
 FILTER_INCLUDED = consts.FILTER_INCLUDED
 FILTER_EXCLUDED = consts.FILTER_EXCLUDED
@@ -25,8 +25,8 @@ allData = {}
 for k in [0..99]
   allData[toFixedInt(k, 2)] = Math.random().toString()
 initTestDB = ->
-  db = Memdown()
-  #db = LevelDown('tempdb')
+  db = MemDB()
+  #db = LevelDB('tempdb')
   db.open()
   for k,v of allData
     db.put(k, v)
