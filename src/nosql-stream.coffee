@@ -16,12 +16,11 @@ module.exports = class StreamNoSQL
   constructor: (aClass)->
     if (this not instanceof StreamNoSQL)
       vParentClass = isInheritedFrom aClass, AbstractNoSQL
-      if vParentClass
-        if vParentClass isnt StreamNoSQL
-          inheritsDirectly vParentClass, StreamNoSQL
+      if vParentClass and not isInheritedFrom aClass, StreamNoSQL
+        inheritsDirectly vParentClass, StreamNoSQL
         return aClass
       else
-        throw new InvalidArgumentError("class should be inherited from AbstractNoSQL")
+        throw new InvalidArgumentError("class should be inherited from AbstractNoSQL or already streamable")
       return aClass
     super
   readStream: (options, makeData)->
