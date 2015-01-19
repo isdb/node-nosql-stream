@@ -92,7 +92,7 @@ the `'last'` event will be emitted when the last data arrived, the argument is t
 if no more data the last key is `undefined`.
 
 ```js
-var MemDB = require("memdown-sync")
+var MemDB = require("nosql-memdb")
 
 
 var db1 = MemDB("db1")
