@@ -24,7 +24,7 @@ you should install the [nosql-stream](https://github.com/snowyu/node-nosql-strea
 ```js
 
 var addStreamFeatureTo = require('nosql-stream')
-var LevelDB = addStreamFeatureTo(require('leveldown-sync'))
+var LevelDB = addStreamFeatureTo(require('nosql-leveldb'))
 
 ```
 The readStream/createReadStream, keyStream/createKeyStream, valueStream/createValue
