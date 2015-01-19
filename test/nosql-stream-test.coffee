@@ -38,7 +38,7 @@ describe "StreamNoSQL", ->
   describe "ReadStream", ->
     db = initTestDB()
     describe ".create", ->
-      it "should create a ReadStream via db argument", ->
+      it "should create a ReadStream via defaults argument", ->
         stream = db.readStream()
         should.exist stream, "stream"
         stream.should.be.instanceOf ReadStream
