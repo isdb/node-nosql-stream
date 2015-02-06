@@ -19,7 +19,7 @@
   "dependencies": {
     "abstract-iterator": ">=0.10.0",
     "abstract-nosql": ">=2.0.0",
-    "abstract-object": "~1.6.1",
+    "abstract-object": "~1.8.1",
     "batch-write-stream": "~0.1.6",
     "minimatch": "~2.0.1",
     "readable-stream": "~1.0.33"
